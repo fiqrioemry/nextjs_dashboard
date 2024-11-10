@@ -1,4 +1,6 @@
 "use client";
+import Header from "@/components/Header";
+import { usePathname } from "next/navigation";
 import React, { createContext, useContext, ReactNode, useState } from "react";
 
 interface GlobalContext {
@@ -13,11 +15,13 @@ interface GlobalProviderProps {
   children: ReactNode;
 }
 
-
 const GlobalProvider: React.FC<GlobalProviderProps> = ({ children }) => {
+  const pathname = usePathname();
   const [user, setUser] = useState<string | null>(null);
+
   return (
     <GlobalContext.Provider value={{ user, setUser }}>
+      {pathname !== "/dashboard" && <Header />}
       {children}
     </GlobalContext.Provider>
   );
@@ -25,7 +29,6 @@ const GlobalProvider: React.FC<GlobalProviderProps> = ({ children }) => {
 
 export default GlobalProvider;
 
-// Custom hook to use the GlobalContext
 export const useGlobalContext = () => {
   return useContext(GlobalContext);
 };

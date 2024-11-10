@@ -3,6 +3,12 @@
 @tailwind utilities;
 
 @layer {
+  body {
+    @apply bg-background text-primary leading-loose;
+  }
+  h1 {
+    @apply text-3xl font-bold tracking-[1.5px] leading-loose;
+  }
   .flex-center {
     @apply flex items-center justify-center;
   }
@@ -11,13 +17,14 @@
   }
 }
 
-body {
-  font-family: Arial, Helvetica, sans-serif;
-}
-
 @layer base {
   :root {
     --radius: 0.5rem;
+    --primary: #033f63;
+    --secondary: #28666e;
+    --accent: #fedc97;
+    --background: #ffffff;
+    --foreground: #f5f5f5;
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
     --sidebar-primary: 240 5.9% 10%;
@@ -25,16 +32,6 @@ body {
     --sidebar-accent: 240 4.8% 95.9%;
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-  .dark {
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 }

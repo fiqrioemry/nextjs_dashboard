@@ -1,12 +1,16 @@
 import SideBar from "@/components/SideBar";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 
 export default function dashboardLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <section>
+    <SidebarProvider>
       <SideBar />
-      {children}
-    </section>
+      <div className="w-full">
+        <SidebarTrigger />
+        {children}
+      </div>
+    </SidebarProvider>
   );
 }

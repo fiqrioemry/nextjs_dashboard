@@ -6,7 +6,7 @@ const Header = () => {
     <header className="py-4 border-b">
       <div className="container mx-auto flex-between">
         <div>
-          <h1>NEXT LOGO</h1>
+          <h1 className="text-2xl font-semibold tracking-[2px]">NEXT LOGO</h1>
         </div>
         <NavMenu />
       </div>
