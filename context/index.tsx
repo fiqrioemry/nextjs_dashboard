@@ -16,12 +16,10 @@ interface GlobalProviderProps {
 }
 
 const GlobalProvider: React.FC<GlobalProviderProps> = ({ children }) => {
-  const pathname = usePathname();
   const [user, setUser] = useState<string | null>(null);
 
   return (
     <GlobalContext.Provider value={{ user, setUser }}>
-      {pathname !== "/dashboard" && <Header />}
       {children}
     </GlobalContext.Provider>
   );
