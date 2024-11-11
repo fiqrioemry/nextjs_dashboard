@@ -1,6 +1,6 @@
 import React from "react";
 
-const Page = () => {
+export default function Dashboard() {
   return (
     <section>
       <div className="container mx-auto h-screen flex-center text-4xl font-bold">
@@ -8,5 +8,4 @@ const Page = () => {
       </div>
     </section>
   );
-};
-export default Page;
+}
