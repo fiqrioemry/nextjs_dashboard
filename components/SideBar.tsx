@@ -35,15 +35,16 @@ const SideBar = () => {
   return (
     <Sidebar>
       <SidebarHeader>
-        <div className="flex items-center space-x-4 px-2 py-4 border-b-2">
-          <div>
-            <FaUserCircle className="text-3xl" />
+        <div className="flex h-20 items-center space-x-4 px-4  py-6 border-b-2">
+          <FaUserCircle className="text-4xl" />
+          <div className="text-sm">
+            <p>Admin</p>
+            <p>John Doe</p>
           </div>
-          <div>Admin : John doe</div>
         </div>
       </SidebarHeader>
       <SidebarContent>
-        <div className="flex flex-col py-4 px-4 space-y-4">
+        <div className="flex flex-col py-4 px-4 font-semibold text-primary space-y-4">
           {sideBarMenu.map((item, index) => {
             return (
               <Link
