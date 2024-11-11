@@ -1,16 +1,6 @@
-import type { FC } from "react";
+import React from "react";
 
-interface productType {
-  id: number;
-  name: string;
-  price: number;
-}
-
-interface pageProps {
-  product: productType;
-}
-
-const Page: FC<pageProps> = () => {
+const Page = () => {
   return (
     <section>
       <div className="container mx-auto h-screen flex-center text-4xl font-bold">
