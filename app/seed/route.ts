@@ -12,52 +12,52 @@ import {
 
 const client = await db.connect();
 
-// async function seedRoles() {
-//   await client.sql`
-//     CREATE TABLE IF NOT EXISTS role (
-//       id SERIAL PRIMARY KEY,
-//       role_name VARCHAR(255) NOT NULL
-//     );
-//   `;
+async function seedRoles() {
+  await client.sql`
+    CREATE TABLE IF NOT EXISTS role (
+      id SERIAL PRIMARY KEY,
+      role_name VARCHAR(255) NOT NULL
+    );
+  `;
 
-//   const insertedRoles = await Promise.all(
-//     roles.map(async (role) => {
-//       return client.sql`
-//         INSERT INTO role (id, role_name)
-//         VALUES (${role.id}, ${role.role_name})
-//         ON CONFLICT (id) DO NOTHING;
-//       `;
-//     })
-//   );
+  const insertedRoles = await Promise.all(
+    roles.map(async (role) => {
+      return client.sql`
+        INSERT INTO role (id, role_name)
+        VALUES (${role.id}, ${role.role_name})
+        ON CONFLICT (id) DO NOTHING;
+      `;
+    })
+  );
 
-//   return insertedRoles;
-// }
+  return insertedRoles;
+}
 
-// async function seedUsers() {
-//   await client.sql`
-//     CREATE TABLE IF NOT EXISTS users (
-//       id SERIAL PRIMARY KEY,
-//       role_id INT,
-//       name VARCHAR(255) NOT NULL,
-//       email TEXT NOT NULL UNIQUE,
-//       password TEXT NOT NULL,
-//       FOREIGN KEY (role_id) REFERENCES role(id)
-//     );
-//   `;
+async function seedUsers() {
+  await client.sql`
+    CREATE TABLE IF NOT EXISTS users (
+      id SERIAL PRIMARY KEY,
+      role_id INT,
+      name VARCHAR(255) NOT NULL,
+      email TEXT NOT NULL UNIQUE,
+      password TEXT NOT NULL,
+      FOREIGN KEY (role_id) REFERENCES role(id)
+    );
+  `;
 
-//   const insertedUsers = await Promise.all(
-//     users.map(async (user) => {
-//       const hashedPassword = await bcrypt.hash(user.password, 10);
-//       return client.sql`
-//         INSERT INTO users (id, role_id, name, email, password)
-//         VALUES (${user.id}, ${user.role_id}, ${user.name}, ${user.email}, ${hashedPassword})
-//         ON CONFLICT (id) DO NOTHING;
-//       `;
-//     })
-//   );
+  const insertedUsers = await Promise.all(
+    users.map(async (user) => {
+      const hashedPassword = await bcrypt.hash(user.password, 10);
+      return client.sql`
+        INSERT INTO users (id, role_id, name, email, password)
+        VALUES (${user.id}, ${user.role_id}, ${user.name}, ${user.email}, ${hashedPassword})
+        ON CONFLICT (id) DO NOTHING;
+      `;
+    })
+  );
 
-//   return insertedUsers;
-// }
+  return insertedUsers;
+}
 
 async function seedCategories() {
   await client.sql`
@@ -134,8 +134,8 @@ async function seedCustomers() {
 
 async function seedSales() {
   await client.sql`
-    CREATE TYPE IF NOT EXISTS payment_type_enum AS ENUM ('cash', 'credit');
-    CREATE TYPE IF NOT EXISTS payment_status_enum AS ENUM ('unpaid', 'paid');
+    CREATE TYPE payment_type_enum AS ENUM ('cash', 'credit');
+    CREATE TYPE payment_status_enum AS ENUM ('unpaid', 'paid');
   `;
 
   await client.sql`
@@ -144,8 +144,8 @@ async function seedSales() {
       user_id INT,
       customer_id INT,
       total_amount INT NOT NULL,
-      payment_type payment_type_enum NOT NULL,
-      payment_status payment_status_enum DEFAULT 'unpaid',
+      payment_type payment_type_enum,
+      payment_status payment_status_enum,
       created_at DATE,
       updated_at DATE,
       FOREIGN KEY (user_id) REFERENCES users(id),
@@ -165,13 +165,8 @@ async function seedSales() {
 
   return insertedSales;
 }
-
 async function seedSalesItem() {
-  // Make sure sales and item tables are created first
-  await seedSales();
-  await seedItems();
-
-  await client.sql`
+  client.sql`
     CREATE TABLE IF NOT EXISTS sales_item (
       id SERIAL PRIMARY KEY,
       sales_id INT,
@@ -200,9 +195,14 @@ async function seedSalesItem() {
 export async function GET() {
   try {
     await client.sql`BEGIN`;
+    await seedRoles();
+    await seedUsers();
+    await seedCustomers();
+    await seedCategories();
+    await seedItems();
+    await seedSales();
     await seedSalesItem();
     await client.sql`COMMIT`;
-
     return Response.json({ message: "Database seeded successfully" });
   } catch (error) {
     await client.sql`ROLLBACK`;
