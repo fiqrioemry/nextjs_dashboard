@@ -1,8 +1,9 @@
-import type { Metadata } from "next";
-import { Poppins } from "next/font/google";
 import "./globals.css";
-
+import type { Metadata } from "next";
 import GlobalProvider from "@/context";
+import { Poppins } from "next/font/google";
+import HeaderSideBar from "./HeaderSideBar";
+import Container from "@/components/Container";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -21,9 +22,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <GlobalProvider>
-        <body className={`${poppins.className} antialiased`}>{children}</body>
-      </GlobalProvider>
+      <body className={`${poppins.className} antialiased`}>
+        <GlobalProvider>
+          <HeaderSideBar>{children}</HeaderSideBar>
+        </GlobalProvider>
+      </body>
     </html>
   );
 }

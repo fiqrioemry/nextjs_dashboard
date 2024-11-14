@@ -1,5 +1,6 @@
 import bcrypt from "bcrypt";
 import { db } from "@vercel/postgres";
+
 import {
   users,
   customers,
